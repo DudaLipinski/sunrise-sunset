@@ -1,7 +1,7 @@
 import { Layout, Menu } from 'antd'
 const { Header } = Layout
 
-const menuItems = ['Home', 'About', 'Contact']
+const menuItems = ['Home']
 
 const MenuTop = () => (
   <Header>

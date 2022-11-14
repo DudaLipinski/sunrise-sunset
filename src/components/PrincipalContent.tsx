@@ -1,15 +1,29 @@
 import { Breadcrumb, Layout } from 'antd'
-import { useEffect } from 'react'
+import { useState } from 'react'
 import { getSunsetAndSunrise } from '../services/sunset-sunrise'
+import { Hour } from '../types/Hour'
+import SunsetSunrise from './SunsetSunrise'
 const { Content } = Layout
 
 const PrincipalContent = () => {
+  const [sunsetSunriseTimes, setSunsetSunriseTimes] = useState<Hour>({
+    sunrise: '',
+    sunset: '',
+    first_light: '',
+    last_light: '',
+    dawn: '',
+    dusk: '',
+    solar_noon: '',
+    golden_hour: '',
+    day_length: '',
+    timezone: '',
+  })
+
   const showLocation: PositionCallback = async (position) => {
     const sunsetAndSunrise = await getSunsetAndSunrise(position)
-    console.log(sunsetAndSunrise) // [XXX] REMOVE BEFORE COMMITING
-  }
 
-  useEffect(() => {}, [])
+    setSunsetSunriseTimes(sunsetAndSunrise)
+  }
 
   function errorHandler(err: any) {
     if (err.code === 1) {
@@ -39,7 +53,8 @@ const PrincipalContent = () => {
           <Breadcrumb.Item>Home</Breadcrumb.Item>
         </Breadcrumb>
         <div className="site-layout-content">
-          <button onClick={getLocation}>Get location</button>
+          <SunsetSunrise sunsetSunriseTimes={sunsetSunriseTimes} />
+          <button onClick={getLocation}>Get hours</button>
         </div>
       </Content>
     </Layout>
